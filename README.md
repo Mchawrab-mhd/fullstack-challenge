@@ -1,49 +1,79 @@
-**W&D Lead Fullstack Engineering Challenge**
+# Property Management System API
 
-Welcome to our Lead Fullstack Engineering Challenge repository. This document will guide you through the challenge. Please fork this repo before you begin, as we will evaluate the code on your fork.
+This API provides endpoints for managing properties, including CRUD operations and search functionalities.
 
-**Challenge Overview:**
+## Frontend
 
-Design and implement a system that enables users to search for properties in the database using filters. Users should be able to log in, search for properties with filters, and view them on a map (Google Maps, Leaflet, or similar).
+The frontend of this Property Management System is developed using Vue.js. It includes a basic login system with the following credentials:
 
-**Requirements:**
+- Username: admin
+- Password: admin
 
-1. **User Authentication**:
-    - Use a hardcoded basic authentication with admin/admin user/password.
+The login credentials are stored in local storage for simplicity.
 
-2. **Database Design and Implementation**: 
-    - We recommend using SQLite for the sake of simplicity, but feel free to choose another database if you have a specific preference. Justify your choice.
-    - Initiate the database using the data from the provided Excel file. Automation is not necessary. 
+## Endpoints
 
-3. **Backend Development**:
-    - Develop a backend in Python to interact with the database.
-    - Choose a suitable Python framework (e.g., Flask, Django, FastAPI, Falcon) and justify your choice.
+### GET /properties/count
 
-4. **Frontend Development**:
-    - Implement the frontend using Vue.js.
-    - Once logged in, users should see the property list.
-    - Each property in the list should display:
-        - Full Address
-        - Class Description
-        - Estimated Market Value
-        - Building Use
-        - Building Square Feet
-    - Users should be able to search for properties from the database.
-        - Users should be able to search on the following values:
-            - Full Address
-            - Class
-            - Estimated_Market_Value
-            - BLDG_USE
-            - BUILDING_SQ_FT
-    - User should be able to see the properties on a map.
-    - Each marker on the map should be clickable and show the property ID.
-    - The map should be centered on the properties.
-    
+- **Description:** Retrieves the count of all properties in the database.
+- **Response:** Returns the count of properties.
 
-5. **Documentation**:
-    - Provide a brief README detailing how to set up and run your application.
-  
-6. **Bonus**:
-    - **Optimization**: Propose at least one optimization that can help the application perform better under increased data loads.
-    - **Additional Feature**: Propose a feature you believe would enhance the user's experience while searching for properties.
+### GET /properties
 
+- **Description:** Retrieves a list of properties with a limit of 20 records.
+- **Response:** Returns a list of properties.
+
+### GET /property/{property_id}
+
+- **Description:** Retrieves details of a specific property identified by its ID.
+- **Parameters:** 
+  - `property_id` (integer): ID of the property to retrieve.
+- **Response:** Returns the details of the specified property.
+
+### GET /properties/search/full_address
+
+- **Description:** Searches properties by their full address.
+- **Parameters:** 
+  - `full_address` (string): Full address to search for.
+- **Response:** Returns properties matching the provided full address.
+
+### GET /properties/search/class
+
+- **Description:** Searches properties by their class description.
+- **Parameters:** 
+  - `class_name` (string): Class description to search for.
+- **Response:** Returns properties matching the provided class description.
+
+### GET /properties/search/market_value
+
+- **Description:** Searches properties by their estimated market value within a specified range.
+- **Parameters:** 
+  - `min_value` (float): Minimum estimated market value.
+  - `max_value` (float): Maximum estimated market value.
+- **Response:** Returns properties within the specified market value range.
+
+### GET /properties/search/building_sq_ft
+
+- **Description:** Searches properties by their building square footage within a specified range.
+- **Parameters:** 
+  - `min_value` (integer): Minimum building square footage.
+  - `max_value` (integer): Maximum building square footage.
+- **Response:** Returns properties within the specified building square footage range.
+
+### GET /properties/search/building_use
+
+- **Description:** Searches properties by their building use category.
+- **Parameters:** 
+  - `propertyType` (string): Type of building use ('none', 'Multi Family', 'Single Family', etc.).
+- **Response:** Returns properties matching the specified building use category.
+
+### GET /properties/search (This is the most used one)
+
+- **Description:** Searches properties based on various criteria such as estimated market value, building square footage, and building use.
+- **Parameters:** 
+  - `minPrice` (float): Minimum estimated market value.
+  - `maxPrice` (float): Maximum estimated market value.
+  - `minSq` (integer): Minimum building square footage.
+  - `maxSq` (integer): Maximum building square footage.
+  - `propertyType` (string): Type of building use ('none', 'Multi Family', 'Single Family', etc.).
+- **Response:** Returns properties that match the specified criteria.

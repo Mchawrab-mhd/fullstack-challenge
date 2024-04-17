@@ -78,7 +78,41 @@ def search_by_building_sq_ft(min_value: int = Query(None), max_value: int = Quer
     return properties
 
 @router.get("/properties/search/building_use")
-def search_by_building_use(building_use: str = Query(...), db: Session = Depends(get_db)):
-    properties = db.query(Property).filter(Property.bldg_use.ilike(f"%{building_use}%")).all()
+def search_by_building_use(propertyType: str = Query(...), db: Session = Depends(get_db)):
+    properties = db.query(Property).filter(Property.bldg_use.ilike(f"%{propertyType}%")).all()
     return properties
 
+@router.get("/properties/search")
+def search_properties(
+    min_value: float = Query(None, alias="minPrice"),
+    max_value: float = Query(None, alias="maxPrice"),
+    min_sq_ft: int = Query(None, alias="minSq"),
+    max_sq_ft: int = Query(None, alias="maxSq"),
+    propertyType: str = Query(None),
+    db: Session = Depends(get_db)
+):
+    query = db.query(Property)
+
+    # Filter by estimated market value range
+    if min_value is not None:
+        query = query.filter(Property.estimated_market_value >= float(min_value))
+    if max_value is not None:
+        query = query.filter(Property.estimated_market_value <= float(max_value))
+
+    # Filter by building sq/ft range
+    if min_sq_ft is not None:
+        query = query.filter(Property.building_sq_ft >= int(min_sq_ft))
+    if max_sq_ft is not None:
+        query = query.filter(Property.building_sq_ft <= int(max_sq_ft))
+
+    # Filter by building use
+    if propertyType is not None:
+        if propertyType == "none":
+            # Handle the 'none' case separately
+            query = query.filter(Property.bldg_use == None)
+        else:
+            query = query.filter(Property.bldg_use.ilike(f"%{propertyType}%"))
+    # Execute the query and return the results
+    properties = query.all()
+    print(properties)
+    return properties

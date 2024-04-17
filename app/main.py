@@ -39,8 +39,7 @@ def init_db():
     try:
         if session.query(Property).count() == 0:
             # Read data from the Excel file
-            data = pd.read_excel('/Users/nour/Documents/mo/mo/fullstack-challenge/Enodo_Skills_Assessment_Data_File.xlsx')  # Replace the path of the file to your Excel file path.
-            # Rename columns to match SQLAlchemy model
+            data = pd.read_excel('C:\\Users\\moems\\Documents\\fullstack-challenge\\Enodo_Skills_Assessment_Data_File.xlsx')
             column_mapping = {
                 'Full Address': 'full_address',
                 'Longitude': 'longitude',
