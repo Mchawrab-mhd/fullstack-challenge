@@ -1,0 +1,1 @@
+# All exception shall be handleded here and called from here for all endpoints
