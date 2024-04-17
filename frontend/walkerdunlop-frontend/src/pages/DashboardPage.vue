@@ -24,7 +24,7 @@
       </div>
       <div>
         <div class="ml-4">Hi, Admin</div>
-        <button  @click="logout" class="flex justify-center align-center">
+        <button @click="logout" class="flex justify-center align-center">
           <img src="../assets/logout.svg" alt="Logo" style="max-width: 15px" />
           <div class="ml-4">Logout</div>
         </button>
@@ -95,6 +95,16 @@
         :key="property.id"
         class="border rounded p-4 shadow-md"
       >
+        <button
+          @click="redirectToMapsPage(property.latitude, property.longitude)"
+          class="focus:outline-none border border-blue-500 rounded px-2 py-1"
+        >
+          <span class="text-blue-500">View</span>
+          <span class=""> </span>
+          <span class="text-yellow-500">On</span>
+          <span class=""> </span>
+          <span class="text-red-500">Map</span>
+        </button>
         <h2 class="text-lg font-bold">{{ property.full_address }}</h2>
         <p>{{ property.class_description }}</p>
         <p class="mt-2 text-blue-600">
@@ -141,10 +151,9 @@ export default {
       })
   },
   methods: {
-    logout() {
-      localStorage.removeItem("userName");
-      this.$router.push("/login");
-
+    logout () {
+      localStorage.removeItem('userName')
+      this.$router.push('/login')
     },
     applyFilters () {
       // Construct the base URL
@@ -173,8 +182,8 @@ export default {
       if (url.endsWith('&')) {
         url = url.slice(0, -1)
       }
-      url = url.replace(/&$/, '');
-      url = url.replace(/&\w+=undefined/, '');
+      url = url.replace(/&$/, '')
+      url = url.replace(/&\w+=undefined/, '')
       // Make the API call
       fetch(url, {
         method: 'GET',
@@ -253,6 +262,9 @@ export default {
             console.error('Error fetching properties:', error)
           })
       }, 500)
+    },
+    redirectToMapsPage(latitude, longitude) {
+      this.$router.push({ name: 'MapsPage', params: { latitude, longitude } });
     }
   }
 }
