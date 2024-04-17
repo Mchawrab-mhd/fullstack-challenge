@@ -77,3 +77,11 @@ The login credentials are stored in local storage for simplicity.
   - `maxSq` (integer): Maximum building square footage.
   - `propertyType` (string): Type of building use ('none', 'Multi Family', 'Single Family', etc.).
 - **Response:** Returns properties that match the specified criteria.
+
+### Bonus Optimization
+
+One optimization that can help improve the performance of the application under increased data loads is implementing server-side pagination. Currently, the application fetches and displays all properties at once, which can lead to performance issues as the dataset grows. By implementing server-side pagination, the application can retrieve and display data in smaller, more manageable chunks, reducing the load on both the server and the client-side rendering. This approach can enhance the responsiveness of the application and improve the overall user experience.
+
+### Additional Feature
+
+To enhance the user experience while searching for properties, a useful feature would be to implement autocomplete or predictive search functionality for the "Full Address" input field. This feature would provide users with suggestions or predictions as they type, based on existing property addresses in the database. Implementing a sleek and intuitive design for this autocomplete feature can significantly improve the usability of the search functionality.
