@@ -90,42 +90,18 @@
       </button>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-3 gap-4 m-4">
-      <div
-        v-for="property in properties"
-        :key="property.id"
-        class="border rounded p-4 shadow-md"
-      >
-        <button
-          @click="redirectToMapsPage(property.latitude, property.longitude)"
-          class="focus:outline-none border border-blue-500 rounded px-2 py-1"
-        >
-          <span class="text-blue-500">View</span>
-          <span class=""> </span>
-          <span class="text-yellow-500">On</span>
-          <span class=""> </span>
-          <span class="text-red-500">Map</span>
-        </button>
-        <h2 class="text-lg font-bold">{{ property.full_address }}</h2>
-        <p>{{ property.class_description }}</p>
-        <p class="mt-2 text-blue-600">
-          Estimated Market Value: ${{ property.estimated_market_value }}
-        </p>
-        <p class="text-red-600">
-          Building Use: {{ property.bldg_use ? property.bldg_use : '---' }}
-        </p>
-        <p>Building Sqft: {{ property.building_sq_ft }} sqft</p>
-        <div class="mt-4 border-t pt-4 text-sm text-gray-600">
-          <p>City: {{ property.city }}</p>
-          <p>Zip Code: {{ property.zip_code }}</p>
-          <p>Neighborhood: {{ property.neighborhood }}</p>
-        </div>
-      </div>
+      <PropertyCard v-for="(property, index) in properties" :key="index" :property="property" />
     </div>
   </div>
 </template>
 
 <script>
+import PropertyCard from '@/components/PropertyCard.vue';
+
 export default {
+  components: {
+    PropertyCard
+  },
   data () {
     return {
       propertyType: 'none',
@@ -262,9 +238,6 @@ export default {
             console.error('Error fetching properties:', error)
           })
       }, 500)
-    },
-    redirectToMapsPage(latitude, longitude) {
-      this.$router.push({ name: 'MapsPage', params: { latitude, longitude } });
     }
   }
 }
