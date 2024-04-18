@@ -1,7 +1,7 @@
 <template>
   <div class="border rounded p-4 shadow-md">
     <button
-      @click="redirectToMapsPage(property.latitude, property.longitude)"
+      @click="redirectToMapsPage(property.id, property.latitude, property.longitude)"
       class="focus:outline-none border border-blue-500 rounded px-2 py-1"
     >
       <span class="text-blue-500">View</span>
@@ -32,13 +32,12 @@ export default {
   props: {
     property: Object
   },
-  mounted () {
-      // Log the received property object
-      console.log('Received property:', this.property)
-    },
+  // mounted () {
+  //   },
   methods: {
-    redirectToMapsPage (latitude, longitude) {
-      this.$router.push({ name: 'MapsPage', params: { latitude, longitude } })
+    redirectToMapsPage (id, latitude, longitude) {
+      console.log(id, latitude, longitude)
+      this.$router.push({ name: 'MapsPage', params: {id, latitude, longitude} })
     }
   }
 }
